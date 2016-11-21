@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+
+             android:background="#44ff0000"
+             android:layout_margin="3dp"
+              android:layout_width="match_parent"
+              android:layout_height="72dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            fresco:placeholderImage="@drawable/ic_menu_add"
+            android:id="@+id/goods_image"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/goods_image"
+            android:orientation="vertical"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goods_title"
+                    android:text="第一行字"
+                    android:textSize="30sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goods_text"
+                    android:text="第二行字"
+                    android:textSize="15sp"
+                    />
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:numStars="5"
+                    android:rating="3"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:id="@+id/goods_rating"/>
+        </LinearLayout>
+</RelativeLayout>
