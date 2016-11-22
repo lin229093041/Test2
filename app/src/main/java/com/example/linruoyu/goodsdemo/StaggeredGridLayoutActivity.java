@@ -13,6 +13,9 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用于练习用的activity
+ */
 public class StaggeredGridLayoutActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<String> mList;

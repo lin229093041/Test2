@@ -3,6 +3,7 @@ package com.example.linruoyu.goodsdemo;
 import java.util.List;
 
 /**
+ * 商品实体
  * Created by linruoyu on 2016/11/17.
  */
 

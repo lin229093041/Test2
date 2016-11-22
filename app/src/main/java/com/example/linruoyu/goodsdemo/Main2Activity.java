@@ -17,6 +17,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 多余的activity ,用于练习使用recycler view
+ */
 public class Main2Activity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<String> mList;

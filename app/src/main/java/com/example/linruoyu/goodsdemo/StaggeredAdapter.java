@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 练习用的adapter,实际上没用到
  * Created by linruoyu on 2016/11/18.
  */
 

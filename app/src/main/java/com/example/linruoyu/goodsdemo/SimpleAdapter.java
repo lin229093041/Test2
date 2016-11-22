@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
 /**
+ * recylerview对应的适配器
  * Created by linruoyu on 2016/11/18.
  */
 
@@ -24,8 +26,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LayoutInflater mInflater;
     private Context mContext;
     protected List<Goods.DataBean.BooksBean> mDatas;
+    boolean flag=true;
+    private Goods goods;
     public SimpleAdapter(Context context, Goods datas) {
         this.mContext=context;
+        this.goods=datas;
         this.mDatas=datas.getData().getBooks();
         mInflater=LayoutInflater.from(context);
     }
@@ -48,7 +53,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         //最后一个item设置为footerView
         if (position+1 == getItemCount()) {
-            return TYPE_FOOTER;
+
+                return TYPE_FOOTER;
+
         }else {
             return TYPE_ITEM;
         }
@@ -87,8 +94,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             setUpItemEvent(holder_item);//注册监听
         }else if(holder instanceof FooterViewHolder){
-            FooterViewHolder holder_footer= (FooterViewHolder) holder;
-            holder_footer.tv.setText("正在加载中。。。。");
+            FooterViewHolder holder_footer = (FooterViewHolder) holder;
+            if (mDatas.size()!=goods.getData().getCount()) {
+                holder_footer.tv.setText("正在加载中。。。。");
+            }else{
+                Toast.makeText(mContext, "已加载完所有", Toast.LENGTH_SHORT).show();
+                holder_footer.tv.setHeight(0);
+            }
+
+
         }
     }
 

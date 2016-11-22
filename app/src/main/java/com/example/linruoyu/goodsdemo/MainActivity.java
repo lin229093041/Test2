@@ -32,12 +32,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private SimpleAdapter adapter;
     private LinearLayoutManager layoutManager;
     Goods g=new Goods();
+    int num=0;
+    /**
+     * 消息队列
+     */
     private Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==1){
+            if(msg.what==10){//这里由于第一次取个数为10条，所以要new Adapter
                 adapter=new SimpleAdapter(MainActivity.this,g);
                 mRecyclerView.setAdapter(adapter);
+            }else if (msg.what<=30&&msg.what>10){//加载状态
+                adapter.notifyDataSetChanged();
             }
             super.handleMessage(msg);
         }
@@ -52,9 +58,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
-        initinternet("https://ionic-book-store.herokuapp.com/api/v1/books/1/10");
-
+        initinternet();
         /**
          * 上拉刷新时触发的监听
          */
@@ -65,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.addOnScrollListener(new EndlessRecylerOnSrcollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                initinternet("https://ionic-book-store.herokuapp.com/api/v1/books/2/10");
+
+                    initinternet();
+
             }
         });
 
@@ -80,19 +86,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
-    private void loadMoreData() {
-        List moreList=new ArrayList();
-        for (int i = 10; i <13 ; i++) {
-            moreList.add("加载更多的数据");
-        }
-//        list.addAll(moreList);
-        Toast.makeText(this, "正在加载数据", Toast.LENGTH_SHORT).show();
-    }
+
     /**
      * 访问数据库获取数据的方法
      */
-    private void initinternet(String url) {
-
+    private void initinternet() {
+        String url="https://ionic-book-store.herokuapp.com/api/v1/books/"+num+"/10";
+        num++;
         OkHttpClient mOkHttpClient=new OkHttpClient();
         final Request request=new Request.Builder().url(url).build();
         Call call=mOkHttpClient.newCall(request);
@@ -111,12 +111,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 g2=gson.fromJson(response.body().string(),Goods.class);
                 Message msg=new Message();
                 if(g.getData()!=null) {
-                    g.getData().getBooks().addAll(g2.getData().getBooks());
+                    g.getData().getBooks().addAll(g2.getData().getBooks());//把新的数据添加到与适配器绑定的数据中
                 }else{
                     g=g2;
-                    msg.what=g.getData().getCount();
                 }
-                mHandler.sendMessage(msg);
+                msg.what=g.getData().getBooks().size();
+                mHandler.sendMessage(msg);//发送消息到队列中等待处理刷新界面
 
             }
 
